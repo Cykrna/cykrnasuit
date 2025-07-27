@@ -1,0 +1,9 @@
+opencv-python-headless
+requests           # API calls, version check, IP lookup
+yt-dlp             # YouTube/media downloader
+opencv-python      # CCTV face & plate detection
+pillow             # Captcha image generation
+flask              # (future) web dashboard & API support
+termcolor          # colored terminal outputs
+psutil
+flask-socketio

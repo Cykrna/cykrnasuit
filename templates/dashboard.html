@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cykrna Suite Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+body {background:#0d0d0d;color:#00ffcc;font-family:"Courier New",monospace;text-align:center;}
+h2 {margin-top:20px;text-shadow:0 0 15px #00ffcc;}
+.btn-cykrna {
+    background:#111;color:#00ffcc;border:1px solid #00ffcc;
+    margin:10px;padding:15px;width:220px;font-size:18px;
+    box-shadow:0 0 15px #00ffcc;transition:0.3s;
+}
+.btn-cykrna:hover {background:#00ffcc;color:#111;box-shadow:0 0 25px #00ffcc;}
+#stats {margin-top:20px;font-size:18px;text-shadow:0 0 10px #00ffcc;}
+</style>
+</head>
+<body>
+<h2>Cykrna Suite — Hacker Dashboard</h2>
+<div id="stats"></div>
+<div class="container mt-4">
+    <a href="/run/lisa" class="btn btn-cykrna">Lisa AI Assistant</a>
+    <a href="/run/whatsapp" class="btn btn-cykrna">WhatsApp Toolkit</a>
+    <a href="/run/media" class="btn btn-cykrna">MediaGrabber</a>
+    <a href="/run/yt" class="btn btn-cykrna">YouTube Downloader</a>
+    <a href="/run/cyber" class="btn btn-cykrna">Cybersecurity Hub</a>
+    <a href="/run/cctv" class="btn btn-cykrna">CCTV Surveillance</a>
+    <a href="/run/exam" class="btn btn-cykrna">Exam Planner</a>
+    <a href="/run/captcha" class="btn btn-cykrna">Captcha & OTP</a>
+    <a href="/run/house" class="btn btn-cykrna">House Planner</a>
+    <a href="/run/update" class="btn btn-cykrna">Update Suite</a>
+    <a href="/terminal" class="btn btn-cykrna">Web Terminal</a>
+</div>
+<script>
+async function loadStats() {
+    const res = await fetch("/stats");
+    const data = await res.json();
+    document.getElementById("stats").innerHTML = 
+        `CPU: ${data.cpu}% | RAM: ${data.ram}% | IP: ${data.ip}`;
+}
+setInterval(loadStats, 3000);
+loadStats();
+</script>
+</body>
+</html>

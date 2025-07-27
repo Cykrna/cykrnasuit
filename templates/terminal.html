@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cykrna Terminal</title>
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+<style>
+body {background:#0d0d0d;color:#00ffcc;font-family:"Courier New",monospace;}
+input {background:#111;color:#00ffcc;border:1px solid #00ffcc;width:80%;}
+button {background:#111;color:#00ffcc;border:1px solid #00ffcc;}
+#output {white-space:pre-wrap;margin-top:20px;background:#111;padding:10px;box-shadow:0 0 10px #00ffcc;}
+</style>
+</head>
+<body>
+<h2>Cykrna Web Terminal</h2>
+<input id="cmd" placeholder="Enter command">
+<button onclick="sendCmd()">Run</button>
+<pre id="output"></pre>
+<script>
+var socket = io();
+function sendCmd() {
+    var cmd = document.getElementById("cmd").value;
+    socket.emit("run_command", {cmd: cmd});
+    document.getElementById("cmd").value = "";
+}
+socket.on("command_output", function(data){
+    document.getElementById("output").innerText += "> " + data.output + "\n";
+});
+</script>
+</body>
+</html>
