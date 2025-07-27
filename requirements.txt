@@ -7,3 +7,5 @@ flask              # (future) web dashboard & API support
 termcolor          # colored terminal outputs
 psutil
 flask-socketio
+python
+matplotlib reportlab
