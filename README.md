@@ -20,13 +20,10 @@ YouTube Downloader – Playlist & quality selector
 
 Cybersecurity Hub – IP lookup & password strength checker
 
-CCTV Surveillance – Real-time face & number plate detection (OpenCV)
-
-Exam Planner – Auto study timetable for SSC MTS & IB SA
-
+CCTV Surveillance – Real-time face & number plate detection (OpenCv)
 Captcha & OTP Generator – Generate captchas & one-time passwords
 
-House Planner – 18x30 ft plot budget & layout estimator
+House Planner – 0*0 ft plot budget & layout estimator
 
 Updater – Pull the latest version from GitHub
 
