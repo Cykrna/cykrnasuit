@@ -1,0 +1,97 @@
+#!/data/data/com.termux/files/usr/bin/env python3
+# MediaGrabber for Termux - Batch Download
+# Downloads almost any media: videos, images, streams, live, popups
+# Saves all files to /sdcard/Download/
+# Requires: Python 3, yt-dlp, ffmpeg
+
+import os
+import subprocess
+import sys
+
+DOWNLOAD_DIR = "/sdcard/Download"
+
+# Make sure download directory exists
+os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+
+# Check if yt-dlp is installed
+try:
+    subprocess.run(["yt-dlp", "--version"], check=True, stdout=subprocess.PIPE)
+except:
+    print("yt-dlp is not installed. Install via `pip install yt-dlp`")
+    sys.exit(1)
+
+# Function to download media
+def download_media(url):
+    print(f"\nDownloading: {url}\n")
+    command = [
+        "yt-dlp",
+        "-f", "best",  # best quality
+        "-o", os.path.join(DOWNLOAD_DIR, "%(title)s.%(ext)s"),  # save to /sdcard/Download/
+        url
+    ]
+    try:
+        subprocess.run(command, check=True)
+        print(f"\n✅ Download completed! Saved to {DOWNLOAD_DIR}\n")
+    except subprocess.CalledProcessError:
+        print("\n❌ Download failed. Try again.\n")
+
+# Function to get clipboard content in Termux
+def get_clipboard():
+    try:
+        text = subprocess.check_output(["termux-clipboard-get"]).decode("utf-8").strip()
+        urls = [line.strip() for line in text.splitlines() if line.startswith("http")]
+        return urls
+    except:
+        return []
+
+# Function to read URLs from a text file
+def read_urls_from_file(file_path):
+    if not os.path.exists(file_path):
+        print(f"File not found: {file_path}")
+        return []
+    with open(file_path, "r") as f:
+        urls = [line.strip() for line in f if line.strip().startswith("http")]
+    return urls
+
+# Main function
+def main():
+    print("==== MediaGrabber Universal Downloader (Batch Mode) ====\n")
+    
+    while True:
+        print("Options:\n1. Paste URLs manually\n2. Auto-detect URLs from clipboard\n3. Load URLs from text file\n4. Exit")
+        choice = input("Choose option: ").strip()
+        
+        urls = []
+        
+        if choice == "1":
+            urls_input = input("Enter media URLs separated by commas: ").strip()
+            urls = [u.strip() for u in urls_input.split(",") if u.strip().startswith("http")]
+        elif choice == "2":
+            urls = get_clipboard()
+            if urls:
+                print(f"Detected {len(urls)} URL(s) from clipboard.")
+            else:
+                print("No valid URLs detected in clipboard.")
+        elif choice == "3":
+            file_path = input("Enter path to text file with URLs: ").strip()
+            urls = read_urls_from_file(file_path)
+            print(f"Loaded {len(urls)} URL(s) from file.")
+        else:
+            print("Exiting...")
+            sys.exit(0)
+        
+        if not urls:
+            print("No valid URLs to download.\n")
+            continue
+        
+        # Download all URLs
+        for url in urls:
+            download_media(url)
+        
+        more = input("Do you want to download more URLs? (y/n): ").lower()
+        if more != "y":
+            print("All done. Exiting MediaGrabber!")
+            break
+
+if __name__ == "__main__":
+    main()
